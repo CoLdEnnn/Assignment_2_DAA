@@ -50,19 +50,22 @@ public class MinHeap {
         heapifyUp(index);
     }
 
-    public void merge(MinHeap other) {
-        int newSize = this.size + other.size;
-        int[] merged = new int[newSize];
+    public static MinHeap merge(MinHeap h1, MinHeap h2) {
+        PerformanceTracker tracker = h1.tracker; // reuse tracker
+        int newSize = h1.size + h2.size;
+        int[] mergedArray = new int[newSize];
         tracker.incrementMemoryAllocations();
 
-        System.arraycopy(this.heap, 0, merged, 0, this.size);
-        System.arraycopy(other.heap, 0, merged, this.size, other.size);
+        System.arraycopy(h1.heap, 0, mergedArray, 0, h1.size);
+        System.arraycopy(h2.heap, 0, mergedArray, h1.size, h2.size);
         tracker.incrementArrayAccesses();
 
-        this.heap = merged;
-        this.size = newSize;
+        MinHeap merged = new MinHeap(newSize, tracker);
+        merged.heap = mergedArray;
+        merged.size = newSize;
+        merged.buildHeap();
 
-        buildHeap();
+        return merged;
     }
 
     private void buildHeap() {
