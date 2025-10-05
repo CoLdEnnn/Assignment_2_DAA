@@ -9,6 +9,9 @@ public class MinHeap {
     private final PerformanceTracker tracker;
 
     public MinHeap(int capacity, PerformanceTracker tracker) {
+        if (capacity <= 0) {
+            capacity = 1;
+        }
         this.heap = new int[capacity];
         this.size = 0;
         this.tracker = tracker;
@@ -18,7 +21,7 @@ public class MinHeap {
     public void insert(int value) {
         tracker.incrementMemoryAllocations();
         if (size == heap.length) {
-            heap = Arrays.copyOf(heap, size * 2);
+            heap = Arrays.copyOf(heap, Math.max(1, size * 2));
             tracker.incrementMemoryAllocations();
         }
         heap[size] = value;
@@ -28,9 +31,18 @@ public class MinHeap {
     }
 
     public int extractMin() {
-        if (size == 0) throw new IllegalStateException("Heap is empty");
+        if (size == 0) {
+            throw new IllegalStateException("Heap is empty");
+        }
+
         int min = heap[0];
         tracker.incrementArrayAccesses();
+
+        if (size == 1) {
+            size = 0;
+            return min;
+        }
+
         heap[0] = heap[size - 1];
         tracker.incrementArrayAccesses();
         size--;
@@ -51,8 +63,17 @@ public class MinHeap {
     }
 
     public static MinHeap merge(MinHeap h1, MinHeap h2) {
-        PerformanceTracker tracker = h1.tracker; // reuse tracker
+        if (h1 == null || h2 == null) {
+            throw new IllegalArgumentException("Heaps to merge cannot be null");
+        }
+
+        PerformanceTracker tracker = h1.tracker;
         int newSize = h1.size + h2.size;
+
+        if (newSize == 0) {
+            return new MinHeap(1, tracker);
+        }
+
         int[] mergedArray = new int[newSize];
         tracker.incrementMemoryAllocations();
 
