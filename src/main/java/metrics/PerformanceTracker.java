@@ -1,5 +1,8 @@
 package metrics;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class PerformanceTracker {
     private long comparisons = 0;
     private long swaps = 0;
@@ -51,5 +54,22 @@ public class PerformanceTracker {
                 "Comparisons: %d, Swaps: %d, Array Accesses: %d, Memory Allocations: %d",
                 comparisons, swaps, arrayAccesses, memoryAllocations
         );
+    }
+
+    public void printSummary() {
+        System.out.println("\n=== Performance Summary ===");
+        System.out.println(toString());
+    }
+
+    public void exportToCSV(String fileName) throws IOException {
+        try (FileWriter writer = new FileWriter(fileName)) {
+            writer.write("comparisons,swaps,arrayAccesses,memoryAllocations\n");
+            writer.write(
+                    comparisons + "," +
+                            swaps + "," +
+                            arrayAccesses + "," +
+                            memoryAllocations + "\n"
+            );
+        }
     }
 }
