@@ -83,4 +83,26 @@ public class MinHeapTest {
         assertEquals(3, heap.getSize());
         assertEquals(1, heap.extractMin());
     }
+
+    @Test
+    void testExtractFromEmptyHeap() {
+        MinHeap heap = new MinHeap(5, tracker);
+        assertThrows(IllegalStateException.class, heap::extractMin);
+    }
+
+    @Test
+    void testExtractFromSingleElementHeap() {
+        MinHeap heap = new MinHeap(5, tracker);
+        heap.insert(10);
+        assertEquals(10, heap.extractMin());
+        assertTrue(heap.isEmpty());
+    }
+
+    @Test
+    void testMergeWithEmptyHeaps() {
+        MinHeap h1 = new MinHeap(5, tracker);
+        MinHeap h2 = new MinHeap(5, tracker);
+        MinHeap merged = MinHeap.merge(h1, h2);
+        assertEquals(0, merged.getSize());
+    }
 }
