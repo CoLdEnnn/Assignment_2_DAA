@@ -1,0 +1,7 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99,9%)","Unit","Param: size"
+"benchmark.MinHeapBenchmark.benchmarkExtractMin","avgt",1,25,"0,035194","0,001022","ms/op",1000
+"benchmark.MinHeapBenchmark.benchmarkExtractMin","avgt",1,25,"0,704444","0,012028","ms/op",10000
+"benchmark.MinHeapBenchmark.benchmarkExtractMin","avgt",1,25,"4,561152","0,562975","ms/op",50000
+"benchmark.MinHeapBenchmark.benchmarkInsert","avgt",1,25,"0,003928","0,000101","ms/op",1000
+"benchmark.MinHeapBenchmark.benchmarkInsert","avgt",1,25,"0,107193","0,010248","ms/op",10000
+"benchmark.MinHeapBenchmark.benchmarkInsert","avgt",1,25,"0,532089","0,005519","ms/op",50000
